@@ -12,17 +12,44 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            Console.Write("Введите размер массива HQ: ");
-            int size = Convert.ToInt32(Console.ReadLine());
-            HR hr = new HR(size);
+            bool reapit = true;
+            while (reapit)
+            { 
+                try
+                {
+                    Console.Write("Введите размер массива HQ: ");
+                    int size = Convert.ToInt32(Console.ReadLine());
+                    HR hr = new HR(size);
 
-            Console.WriteLine($"Введите {size} элементов массива.");
-            hr.AddPersons();
+                    Console.WriteLine($"Введите {size} элементов массива.");
+                    hr.AddPersons();
+                    hr.ViewPersons();
 
-            hr.ViewPersons();
+                    Console.WriteLine("Отсортированныый массив.");
+                    hr.Sort();
+                    hr.ViewPersons();
 
-            Console.ReadKey();
-            
+                    Console.WriteLine("Массив сохранен.");
+                    hr.Save();
+
+                    reapit = Reapit();
+                }
+                catch
+                {
+                    Console.WriteLine("Произошла ошибка!");
+                    reapit = Reapit();
+                }
+            }
+        }
+
+        static bool Reapit()
+        {
+            Console.WriteLine("Повторить?");
+            Console.Write(@"Да(Y) \ Нет(Любая кнопка): ");
+            string result = Console.ReadLine().ToUpper().Trim();
+            if (result == "Y")
+                return true;
+            return false;
         }
     }
 
@@ -50,19 +77,20 @@ namespace ConsoleApp1
 
         public void ViewPersons()
         {
-            int size = persons.Length;
-            for (int i = 0; i < size; i++)
-                Console.WriteLine($"Фамилия: {persons[i].Surname} Имя: {persons[i].Name} Возраст: {persons[i].Age}");
+            foreach(Person person in persons)
+                Console.WriteLine($"Фамилия: {person.Surname} Имя: {person.Name} Возраст: {person.Age}");
         }
 
-        public static void Sort()
-        {
+        public void Sort() => Array.Sort(persons, (x, y) => (x.Surname + " " + x.Name).CompareTo(y.Surname + " " + y.Name));
 
-        }
-
-        public static void Save(Person[] masSave)
+        public void Save()
         {
-            string path = $"{Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)}\\mas.txt";
+            string path = $"{Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)}\\Persons.txt";
+            using (StreamWriter writer = new StreamWriter(File.Open(path, FileMode.Create)))
+            {
+                foreach(Person person in persons)
+                    writer.WriteLine($"Фамилия: {person.Surname} Имя: {person.Name} Возраст: {person.Age}");
+            }
         }
     }
 

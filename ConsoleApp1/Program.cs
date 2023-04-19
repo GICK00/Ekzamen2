@@ -14,25 +14,41 @@ namespace ConsoleApp1
         {
             Console.Write("Введите размер массива HQ: ");
             int size = Convert.ToInt32(Console.ReadLine());
-            HQ hq = new HQ(size);
+            HR hr = new HR(size);
 
             Console.WriteLine($"Введите {size} элементов массива.");
-            for (int n = 0; n < size; n++)
-            {
+            hr.AddPersons();
 
-            }
+
             
         }
     }
 
-    public class HQ
+    public class HR
     {
-        private Person[] mas;
-        public HQ (int size) => mas = new Person[size];
+        private Person[] persons;
+        public HR (int size) => persons = new Person[size];
 
-        public void AddPerson(int size)
+        public void AddPersons()
         {
-            
+            int size = persons.Length;
+            for (int i = 0; i < size; i++)
+            {
+                Person person = new Person();
+                Console.Write("Фамилия: ");
+                person.Surname = Console.ReadLine();
+                Console.Write("Имя: ");
+                person.Name = Console.ReadLine();
+                Console.Write("Возраст: ");
+                person.Age = Console.ReadLine();
+                persons[i] = person;
+                Console.WriteLine();
+            }
+        }
+
+        public void ViewPersons()
+        {
+
         }
 
         public static void Sort()
@@ -75,6 +91,7 @@ namespace ConsoleApp1
                 name = value;
             }
         }
+
         public string Age
         {
             get

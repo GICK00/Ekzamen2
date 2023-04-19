@@ -19,7 +19,9 @@ namespace ConsoleApp1
             Console.WriteLine($"Введите {size} элементов массива.");
             hr.AddPersons();
 
+            hr.ViewPersons();
 
+            Console.ReadKey();
             
         }
     }
@@ -48,7 +50,9 @@ namespace ConsoleApp1
 
         public void ViewPersons()
         {
-
+            int size = persons.Length;
+            for (int i = 0; i < size; i++)
+                Console.WriteLine($"Фамилия: {persons[i].Surname} Имя: {persons[i].Name} Возраст: {persons[i].Age}");
         }
 
         public static void Sort()
